@@ -17,9 +17,6 @@ class SerialVerifier {
     }
 
     initializeElements() {
-        this.serialInput = document.getElementById('serialInput');
-        this.verifyBtn = document.getElementById('verifyBtn');
-        this.clearBtn = document.getElementById('clearBtn');
         this.clearHistoryBtn = document.getElementById('clearHistoryBtn');
         this.searchInput = document.getElementById('searchInput');
         this.statusMessage = document.getElementById('statusMessage');
@@ -40,8 +37,6 @@ class SerialVerifier {
     }
 
     bindEvents() {
-        this.verifyBtn.addEventListener('click', () => this.verifySerialNumber());
-        this.clearBtn.addEventListener('click', () => this.clearEntry());
         this.clearHistoryBtn.addEventListener('click', () => this.clearHistory());
         
         // Scanner events
@@ -56,59 +51,42 @@ class SerialVerifier {
                 this.closeScanner();
             }
         });
-        
-        this.serialInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.verifySerialNumber();
-            }
-        });
 
         this.searchInput.addEventListener('input', (e) => {
             this.filterHistory(e.target.value);
         });
-
-        // Auto-focus on input
-        this.serialInput.focus();
     }
 
-    verifySerialNumber() {
-        const serialNumber = this.serialInput.value.trim();
-        
-        if (!serialNumber) {
-            this.showStatus('Please enter a serial number', 'warning');
+    verifyTicket(ticketCode) {
+        // Validate: Only 5 digits, numbers only
+        if (!/^\d{5}$/.test(ticketCode)) {
+            this.showStatus('Invalid ticket! Must be 5 digits', 'error');
+            this.showToast('error', 'Ticket code must be exactly 5 digits');
             return;
         }
 
         // Check if already scanned
-        if (this.scannedBarcodes.includes(serialNumber)) {
+        if (this.scannedBarcodes.includes(ticketCode)) {
             this.duplicateCount++;
-            this.showStatus('ALREADY SCANNED!', 'error');
-            this.showToast('error', `Serial number ${serialNumber} has already been scanned!`);
+            this.showStatus('DUPLICATE TICKET!', 'error');
+            this.showToast('error', `Ticket ${ticketCode} has already been scanned!`);
             this.updateStats();
             return;
         }
 
         // Add to scanned list
-        this.scannedBarcodes.push(serialNumber);
+        this.scannedBarcodes.push(ticketCode);
         
-        // Check if valid
-        const isValid = this.serialNumbers.includes(serialNumber);
-        if (isValid) {
-            this.validCount++;
-            this.showStatus('Valid', 'success');
-            this.showToast('success', `Serial number ${serialNumber} is valid!`);
-        } else {
-            this.invalidCount++;
-            this.showStatus('Invalid', 'error');
-            this.showToast('error', `Serial number ${serialNumber} is invalid!`);
-        }
+        // All 5-digit codes are valid tickets
+        this.validCount++;
+        this.showStatus('Valid Ticket', 'success');
+        this.showToast('success', `Ticket ${ticketCode} is valid! Entry granted.`);
 
-        this.addToHistory(serialNumber, isValid);
+        this.addToHistory(ticketCode, true);
         this.updateStats();
-        this.clearEntry();
     }
 
-    addToHistory(serialNumber, isValid) {
+    addToHistory(ticketCode, isValid) {
         const historyItem = document.createElement('div');
         historyItem.className = `history-item ${isValid ? 'valid' : 'invalid'}`;
         
@@ -116,7 +94,7 @@ class SerialVerifier {
         const timeString = now.toLocaleTimeString();
         
         historyItem.innerHTML = `
-            <div class="history-serial">${serialNumber}</div>
+            <div class="history-serial">Ticket: ${ticketCode}</div>
             <div class="history-time">${timeString}</div>
         `;
         
@@ -167,10 +145,7 @@ class SerialVerifier {
         this.duplicateCountEl.textContent = this.duplicateCount;
     }
 
-    clearEntry() {
-        this.serialInput.value = '';
-        this.serialInput.focus();
-    }
+    // Removed clearEntry method - no manual input needed
 
     clearHistory() {
         if (confirm('Are you sure you want to clear all scan history?')) {
@@ -322,15 +297,18 @@ class SerialVerifier {
         // Clean up the scanned code
         const cleanCode = code.trim();
         
+        // Validate: Only 5 digits, numbers only
+        if (!/^\d{5}$/.test(cleanCode)) {
+            this.showScannerStatus(`Invalid: ${cleanCode} (Must be 5 digits)`, 'error');
+            return;
+        }
+        
         // Show success message
         this.showScannerStatus(`Scanned: ${cleanCode}`, 'success');
         
-        // Set the input value
-        this.serialInput.value = cleanCode;
-        
-        // Auto-verify the scanned code
+        // Auto-verify the scanned ticket
         setTimeout(() => {
-            this.verifySerialNumber();
+            this.verifyTicket(cleanCode);
             this.closeScanner();
         }, 1000);
     }
@@ -343,12 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add some keyboard shortcuts
 document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + K to focus input
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        document.getElementById('serialInput').focus();
-    }
-    
     // Ctrl/Cmd + S to open scanner
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
@@ -356,14 +328,12 @@ document.addEventListener('keydown', (e) => {
         if (scanBtn) scanBtn.click();
     }
     
-    // Escape to clear input or close scanner
+    // Escape to close scanner
     if (e.key === 'Escape') {
         const scannerModal = document.getElementById('scannerModal');
         if (scannerModal && scannerModal.classList.contains('show')) {
             const closeBtn = document.getElementById('closeScannerBtn');
             if (closeBtn) closeBtn.click();
-        } else {
-            document.getElementById('serialInput').value = '';
         }
     }
 });

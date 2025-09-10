@@ -1,18 +1,18 @@
-# 🔍 Serial Number Verifier with Barcode Scanner
+# 🎫 Concert Ticket Scanner
 
-A modern web application for scanning and verifying serial numbers with duplicate detection and real-time barcode scanning capabilities.
+A modern web application for scanning concert tickets with duplicate detection and real-time barcode scanning capabilities.
 
 ## ✨ Features
 
-- **📷 Real-time Barcode Scanning**: Use your device's camera to scan barcodes instantly
-- **✅ Duplicate Detection**: Prevents scanning the same serial number twice
+- **📷 Real-time Barcode Scanning**: Use your device's camera to scan concert tickets instantly
+- **✅ Duplicate Detection**: Prevents scanning the same ticket twice
 - **🎨 Modern UI**: Beautiful, responsive web interface with professional scanner modal
-- **📊 Real-time Statistics**: Track valid, invalid, and duplicate scans
-- **📝 Scan History**: View and search through all previous scans with timestamps
+- **📊 Real-time Statistics**: Track valid tickets and duplicate attempts
+- **📝 Scan History**: View and search through all previous ticket scans with timestamps
 - **💾 Data Persistence**: Automatically saves scan data in browser memory
-- **🔍 Search Functionality**: Filter scan history by serial number
+- **🔍 Search Functionality**: Filter scan history by ticket code
 - **📱 Mobile Responsive**: Works perfectly on desktop, tablet, and mobile devices
-- **⌨️ Keyboard Shortcuts**: Quick access to common functions
+- **⌨️ Keyboard Shortcuts**: Quick access to scanner (Ctrl+S)
 - **🎯 Multiple Barcode Formats**: Supports Code 128, EAN, UPC, Code 39, and more
 
 ## 🚀 Quick Start
@@ -27,27 +27,22 @@ A modern web application for scanning and verifying serial numbers with duplicat
 
 ## 📖 How to Use
 
-### 1. Manual Entry
-1. Type a 5-digit serial number (00001-20000) in the input field
-2. Click "Verify" or press Enter
-3. View immediate feedback and updated statistics
-
-### 2. Barcode Scanning
-1. Click the **"Scan"** button (green button with barcode icon)
+### 1. Scan Concert Tickets
+1. Click the **"Scan Concert Ticket"** button (large green button)
 2. Grant camera permissions when prompted
-3. Position the barcode within the scanning frame
-4. The scanner will automatically detect and verify the barcode
+3. Position the ticket barcode within the scanning frame
+4. The scanner will automatically detect and verify the ticket
 5. Results are added to the scan history automatically
 
-### 3. View History
-- All scans are displayed in the history section
-- Use the search box to filter by serial number
+### 2. View History
+- All ticket scans are displayed in the history section
+- Use the search box to filter by ticket code
 - Click "Clear History" to reset all data
 
 ## 🎯 Supported Barcode Formats
 
 The scanner supports multiple barcode formats:
-- **Code 128** (most common for serial numbers)
+- **Code 128** (most common for concert tickets)
 - **EAN-13, EAN-8**
 - **Code 39, Code 39 VIN**
 - **UPC-A, UPC-E**
@@ -56,10 +51,8 @@ The scanner supports multiple barcode formats:
 
 ## ⌨️ Keyboard Shortcuts
 
-- `Enter` - Verify current serial number
-- `Ctrl/Cmd + K` - Focus on input field
 - `Ctrl/Cmd + S` - Open barcode scanner
-- `Escape` - Clear input field or close scanner
+- `Escape` - Close scanner
 
 ## 🔧 Technical Details
 
@@ -131,18 +124,19 @@ barcode-scanner-app/
 - Use "Clear History" to reset all data
 - Data is lost if browser cache is cleared
 
-### Valid Serial Numbers
-- The system accepts serial numbers from `00001` to `20000`
-- All numbers must be 5-digit format with leading zeros
-- Invalid numbers are tracked separately from valid ones
+### Valid Ticket Codes
+- The system accepts exactly 5-digit numbers (00000-99999)
+- Only numbers are allowed (no letters or special characters)
+- All 5-digit codes are considered valid tickets
+- Duplicate tickets are detected and rejected
 
 ## 🎯 Use Cases
 
-- **Inventory Management**: Track and verify product serial numbers
-- **Quality Control**: Ensure products are properly labeled
-- **Asset Tracking**: Monitor equipment and devices
-- **Retail Operations**: Verify product authenticity
-- **Warehouse Management**: Streamline inventory processes
+- **Concert Entry**: Scan tickets at venue entrances
+- **Event Management**: Track ticket usage and prevent duplicates
+- **Security**: Ensure only valid tickets gain entry
+- **Analytics**: Monitor attendance and scan patterns
+- **Mobile Check-in**: Use on phones/tablets for quick scanning
 
 ## 🚀 Development
 

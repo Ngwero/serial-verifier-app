@@ -11,23 +11,17 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1><i class="fas fa-barcode"></i> Serial Number Verifier</h1>
-            <p>Scan and verify serial numbers with duplicate detection</p>
+            <h1><i class="fas fa-ticket-alt"></i> Concert Ticket Scanner</h1>
+            <p>Scan concert tickets to verify entry and prevent duplicates</p>
         </header>
 
         <main class="main-content">
             <div class="scan-section">
-                <div class="input-group">
-                    <input type="text" id="serialInput" placeholder="Enter or scan serial number..." autocomplete="off">
-                    <button id="verifyBtn" class="btn btn-primary">
-                        <i class="fas fa-check"></i> Verify
+                <div class="scan-main">
+                    <button id="scanBtn" class="btn btn-scan btn-large">
+                        <i class="fas fa-qrcode"></i> Scan Concert Ticket
                     </button>
-                    <button id="clearBtn" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Clear
-                    </button>
-                    <button id="scanBtn" class="btn btn-scan">
-                        <i class="fas fa-qrcode"></i> Scan
-                    </button>
+                    <p class="scan-description">Point your camera at the concert ticket barcode to verify entry</p>
                 </div>
                 
                 <!-- Barcode Scanner Modal -->
@@ -59,7 +53,7 @@
                 </div>
                 
                 <div id="statusMessage" class="status-message">
-                    <i class="fas fa-info-circle"></i> Enter a serial number to verify
+                    <i class="fas fa-info-circle"></i> Ready to scan concert tickets
                 </div>
             </div>
 
@@ -96,7 +90,7 @@
             </div>
 
             <div class="history-section">
-                <h3><i class="fas fa-history"></i> Scan History</h3>
+                <h3><i class="fas fa-history"></i> Ticket Scan History</h3>
                 <div class="history-controls">
                     <button id="clearHistoryBtn" class="btn btn-outline">
                         <i class="fas fa-trash"></i> Clear History
