@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Number Verifier</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-barcode"></i> Serial Number Verifier</h1>
+            <p>Scan and verify serial numbers with duplicate detection</p>
+        </header>
+
+        <main class="main-content">
+            <div class="scan-section">
+                <div class="input-group">
+                    <input type="text" id="serialInput" placeholder="Enter or scan serial number..." autocomplete="off">
+                    <button id="verifyBtn" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Verify
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                    <button id="scanBtn" class="btn btn-scan">
+                        <i class="fas fa-qrcode"></i> Scan
+                    </button>
+                </div>
+                
+                <!-- Barcode Scanner Modal -->
+                <div id="scannerModal" class="scanner-modal">
+                    <div class="scanner-content">
+                        <div class="scanner-header">
+                            <h3><i class="fas fa-qrcode"></i> Barcode Scanner</h3>
+                            <button id="closeScannerBtn" class="btn btn-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="scanner-body">
+                            <div id="scanner-container" class="scanner-container">
+                                <div class="scanner-overlay">
+                                    <div class="scanner-frame"></div>
+                                    <p class="scanner-instructions">Position the barcode within the frame</p>
+                                </div>
+                            </div>
+                            <div class="scanner-controls">
+                                <button id="startScanBtn" class="btn btn-primary">
+                                    <i class="fas fa-play"></i> Start Scanning
+                                </button>
+                                <button id="stopScanBtn" class="btn btn-secondary" style="display: none;">
+                                    <i class="fas fa-stop"></i> Stop Scanning
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="statusMessage" class="status-message">
+                    <i class="fas fa-info-circle"></i> Enter a serial number to verify
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card valid">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="validCount">0</div>
+                        <div class="stat-label">Valid</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card invalid">
+                    <div class="stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="invalidCount">0</div>
+                        <div class="stat-label">Invalid</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card duplicate">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="duplicateCount">0</div>
+                        <div class="stat-label">Duplicates</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h3><i class="fas fa-history"></i> Scan History</h3>
+                <div class="history-controls">
+                    <button id="clearHistoryBtn" class="btn btn-outline">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search history...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                <div id="historyList" class="history-list">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No scans yet. Start scanning to see history here.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">
+            <div class="toast-content">
+                <i class="toast-icon"></i>
+                <span class="toast-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
