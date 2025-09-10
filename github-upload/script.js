@@ -60,8 +60,11 @@ class SerialVerifier {
     verifyTicket(ticketCode) {
         // Validate: Only 5 digits, numbers only
         if (!/^\d{5}$/.test(ticketCode)) {
-            this.showStatus('Invalid ticket! Must be 5 digits', 'error');
-            this.showToast('error', 'Ticket code must be exactly 5 digits');
+            this.invalidCount++;
+            this.showStatus('Invalid barcode! Must be exactly 5 digits', 'error');
+            this.showToast('error', `Barcode ${ticketCode} is invalid! Must be exactly 5 digits.`);
+            this.addToHistory(ticketCode, false);
+            this.updateStats();
             return;
         }
 
@@ -299,7 +302,9 @@ class SerialVerifier {
         
         // Validate: Only 5 digits, numbers only
         if (!/^\d{5}$/.test(cleanCode)) {
-            this.showScannerStatus(`Invalid: ${cleanCode} (Must be 5 digits)`, 'error');
+            this.showScannerStatus(`Invalid: ${cleanCode} (Must be exactly 5 digits)`, 'error');
+            this.showStatus('Invalid barcode! Must be exactly 5 digits', 'error');
+            this.showToast('error', `Barcode ${cleanCode} is invalid! Must be exactly 5 digits.`);
             return;
         }
         
